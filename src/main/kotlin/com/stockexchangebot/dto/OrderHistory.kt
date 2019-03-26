@@ -4,16 +4,16 @@ import java.math.BigDecimal
 import java.security.Timestamp
 
 data class OrderHistory (
-    var orderUuid: String,
-    var exchange: String,
-    var timestamp: Timestamp,
-    var orderType: String,
-    var limit: BigDecimal,
-    var quantity: BigDecimal,
-    var quantityRemaining: Int,
-    var commision: BigDecimal,
-    var price: BigDecimal,
-    var pricePerUnit: BigDecimal,
-    var isConditional: Boolean,
-    var immediateOrCancel: Boolean
+    var OrderUuid: String,
+    var Exchange: String,
+    var Timestamp: Timestamp,
+    var OrderType: String,
+    var Limit: BigDecimal,
+    var Quantity: BigDecimal,
+    var QuantityRemaining: Int,
+    var Commision: BigDecimal,
+    var Price: BigDecimal,
+    var PricePerUnit: BigDecimal,
+    var IsConditional: Boolean,
+    var ImmediateOrCancel: Boolean
 )

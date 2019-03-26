@@ -3,14 +3,10 @@ package com.stockexchangebot.api.bittrex.account
 import com.stockexchangebot.Utils
 import com.stockexchangebot.api.reader.JsonReader
 import com.stockexchangebot.dto.*
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RestController
 import java.math.BigDecimal
 
-class AccountController {
-    @Autowired lateinit var jsonReader: JsonReader
+class BittrexAccount {
+    var jsonReader: JsonReader = JsonReader()
 
     private val utils: Utils = Utils()
     private val url = "/account"

@@ -1,5 +1,5 @@
 package com.stockexchangebot.dto
 
-data class SelllLimit (
-    var uuid: String
+data class SellLimit (
+    var Uuid: String
 )

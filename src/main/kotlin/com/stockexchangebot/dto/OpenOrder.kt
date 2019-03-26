@@ -4,19 +4,19 @@ import java.math.BigDecimal
 import java.time.LocalDate
 
 data class OpenOrder (
-    var uuid: String,
-    var orderUuid: String,
-    var exchange: String,
-    var orderType: String,
-    var quantity: Int,
-    var quantityReaming: Int,
-    var limit: BigDecimal,
-    var commissionPaid: Int,
-    var price: BigDecimal,
-    var pricePerUnit: BigDecimal,
-    var opened: LocalDate,
-    var closed: Any,
-    var cancelInitiated: Boolean,
-    var immediateOrCancel: Boolean,
-    var isConditional: Boolean
+    var Uuid: String,
+    var OrderUuid: String,
+    var Exchange: String,
+    var OrderType: String,
+    var Quantity: Int,
+    var QuantityReaming: Int,
+    var Limit: BigDecimal,
+    var CommissionPaid: Int,
+    var Price: BigDecimal,
+    var PricePerUnit: BigDecimal,
+    var Opened: LocalDate,
+    var Closed: Any,
+    var CancelInitiated: Boolean,
+    var ImmediateOrCancel: Boolean,
+    var IsConditional: Boolean
 )
