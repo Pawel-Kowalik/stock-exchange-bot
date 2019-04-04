@@ -5,6 +5,7 @@ import com.stockexchangebot.dto.bittrexapi.Currency
 import com.stockexchangebot.model.CoinType
 import com.stockexchangebot.model.CoinTypeDAO
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import kotlin.streams.toList
 
@@ -13,6 +14,7 @@ class CoinTypeService @Autowired constructor(
         private val bittrexPublicFacade: BittrexPublicFacade,
         private val coinTypeDAO: CoinTypeDAO) {
 
+    @Scheduled(cron = "0 0 * * *")
     fun saveCoinType() {
         val coinsType = getCoinTypeNames()
         coinTypeDAO.saveAll(coinsType)
