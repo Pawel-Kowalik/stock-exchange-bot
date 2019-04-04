@@ -2,7 +2,7 @@ package com.stockexchangebot.api.bittrex.market
 
 import com.stockexchangebot.Utils
 import com.stockexchangebot.api.reader.JsonReader
-import com.stockexchangebot.dto.*
+import com.stockexchangebot.dto.bittrexapi.*
 import java.math.BigDecimal
 
 class BittrexMarket {

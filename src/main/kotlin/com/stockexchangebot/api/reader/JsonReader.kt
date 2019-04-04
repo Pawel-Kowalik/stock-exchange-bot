@@ -5,8 +5,8 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.stockexchangebot.Utils
-import com.stockexchangebot.dto.*
-import com.stockexchangebot.dto.Currency
+import com.stockexchangebot.dto.bittrexapi.*
+import com.stockexchangebot.dto.bittrexapi.Currency
 import org.apache.commons.codec.binary.Hex
 import org.springframework.stereotype.Service
 import java.io.BufferedReader

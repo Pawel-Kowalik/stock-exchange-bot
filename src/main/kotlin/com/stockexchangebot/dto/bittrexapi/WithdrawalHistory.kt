@@ -1,4 +1,4 @@
-package com.stockexchangebot.dto
+package com.stockexchangebot.dto.bittrexapi
 
 import java.math.BigDecimal
 import java.time.LocalDate

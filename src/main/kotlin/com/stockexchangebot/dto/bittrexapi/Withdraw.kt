@@ -1,4 +1,4 @@
-package com.stockexchangebot.dto
+package com.stockexchangebot.dto.bittrexapi
 
 data class Withdraw (
     var Uuid: String

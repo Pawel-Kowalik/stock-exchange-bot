@@ -1,4 +1,4 @@
-package com.stockexchangebot.dto
+package com.stockexchangebot.dto.bittrexapi
 
 enum class MarketType(val type: String) {
     USD("USD"),

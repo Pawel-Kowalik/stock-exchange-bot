@@ -1,4 +1,4 @@
-package com.stockexchangebot.dto.orderBook
+package com.stockexchangebot.dto.bittrexapi.orderBook
 
 enum class OrderBookType(val type: String) {
     BUY("buy"),

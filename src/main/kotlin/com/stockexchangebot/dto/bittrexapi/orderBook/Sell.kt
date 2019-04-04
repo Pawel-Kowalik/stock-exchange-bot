@@ -1,4 +1,4 @@
-package com.stockexchangebot.dto.orderBook
+package com.stockexchangebot.dto.bittrexapi.orderBook
 
 import java.math.BigDecimal
 
