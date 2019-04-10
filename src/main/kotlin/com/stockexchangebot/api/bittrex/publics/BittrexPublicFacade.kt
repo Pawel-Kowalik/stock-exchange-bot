@@ -1,7 +1,7 @@
 package com.stockexchangebot.api.bittrex.publics
 
-import com.stockexchangebot.dto.bittrexapi.MarketType
-import com.stockexchangebot.dto.bittrexapi.orderBook.OrderBookType
+import com.stockexchangebot.bittrexapi.dto.MarketType
+import com.stockexchangebot.bittrexapi.dto.orderBook.OrderBookType
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -32,7 +32,7 @@ class BittrexPublicFacade @Autowired constructor(private val bittrexPublicDAO: B
         return bittrexPublicDAO.getOrderBook(marketType, orderBookType)
     }
 
-    fun getMarketHistory(marketType: MarketType) : Collection<*> {
-        return bittrexPublicDAO.getMarketHistory(marketType)
+    fun getMarketHistory(marketType: MarketType, coinType: String) : Collection<*> {
+        return bittrexPublicDAO.getMarketHistory(marketType, coinType)
     }
 }

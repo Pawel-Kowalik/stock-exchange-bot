@@ -2,11 +2,11 @@ package com.stockexchangebot.api.bittrex.publics
 
 import com.stockexchangebot.Utils
 import com.stockexchangebot.api.reader.JsonReader
-import com.stockexchangebot.dto.bittrexapi.*
-import com.stockexchangebot.dto.bittrexapi.orderBook.OrderBook
-import com.stockexchangebot.dto.bittrexapi.orderBook.OrderBookType
+import com.stockexchangebot.bittrexapi.dto.*
+import com.stockexchangebot.bittrexapi.dto.orderBook.OrderBook
+import com.stockexchangebot.bittrexapi.dto.orderBook.OrderBookType
 
- class BittrexPublic : BittrexPublicDAO {
+class BittrexPublic : BittrexPublicDAO {
     var jsonReader: JsonReader = JsonReader()
 
     private val utils: Utils = Utils()
@@ -47,8 +47,9 @@ import com.stockexchangebot.dto.bittrexapi.orderBook.OrderBookType
         return jsonReader.mapToSuitableDTOS(uri, false, OrderBook::class.java)
     }
 
-    override fun getMarketHistory(marketType: MarketType) : Collection<*> {
-        uri = String.format("%s%s/getmarkethistory?market=%s", utils.bittrexApi, url, marketType.toString())
+    override fun getMarketHistory(marketType: MarketType, coinType: String) : Collection<*> {
+        uri = String.format("%s%s/getmarkethistory?market=%s-%s", utils.bittrexApi, url, marketType.toString(),
+                coinType)
         return jsonReader.mapToSuitableDTOS(uri, false, MarketHistory::class.java)
     }
 }

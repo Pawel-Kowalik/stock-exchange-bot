@@ -5,8 +5,8 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.stockexchangebot.Utils
-import com.stockexchangebot.dto.bittrexapi.*
-import com.stockexchangebot.dto.bittrexapi.Currency
+import com.stockexchangebot.bittrexapi.dto.*
+import com.stockexchangebot.bittrexapi.dto.Currency
 import org.apache.commons.codec.binary.Hex
 import org.springframework.stereotype.Service
 import java.io.BufferedReader
@@ -24,8 +24,8 @@ class JsonReader {
     val utils: Utils = Utils()
 
     fun <T>mapToSuitableDTO(uri: String, sign: Boolean, classToMap: Class<T>): Any? {
-        var gson = Gson()
-        var jsonObject = getJsonObject(uri, sign).getAsJsonObject("result")
+        val gson = Gson()
+        val jsonObject = getJsonObject(uri, sign).getAsJsonObject("result")
 
         when(classToMap) {
             Ticker::class.java -> return gson.fromJson(jsonObject, Ticker::class.java)
@@ -42,8 +42,8 @@ class JsonReader {
     }
 
     fun <T>mapToSuitableDTOS(uri: String, sign: Boolean, classToMap: Class<T>): Collection<Any> {
-        var gson = Gson()
-        var jsonArray = getJsonArray(uri, sign)
+        val gson = Gson()
+        val jsonArray = getJsonArray(uri, sign)
 
         when(classToMap) {
             Market::class.java -> return gson.fromJson(jsonArray, Array<Market>::class.java).toList()
@@ -62,7 +62,7 @@ class JsonReader {
     }
 
     private fun getJsonArray(uri: String, sign: Boolean) : JsonArray {
-        var jsonObject = getJsonObject(uri, sign)
+        val jsonObject = getJsonObject(uri, sign)
 
         return jsonObject.getAsJsonArray("result")
     }
@@ -81,8 +81,8 @@ class JsonReader {
 
     private fun getJson(uri: String) : String {
         val url = URL(uri)
-        var scanner = Scanner(url.openStream())
-        var json = scanner.nextLine()
+        val scanner = Scanner(url.openStream())
+        val json = scanner.nextLine()
         return json
     }
 

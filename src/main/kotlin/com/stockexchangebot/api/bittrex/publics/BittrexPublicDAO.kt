@@ -1,7 +1,7 @@
 package com.stockexchangebot.api.bittrex.publics
 
-import com.stockexchangebot.dto.bittrexapi.MarketType
-import com.stockexchangebot.dto.bittrexapi.orderBook.OrderBookType
+import com.stockexchangebot.bittrexapi.dto.MarketType
+import com.stockexchangebot.bittrexapi.dto.orderBook.OrderBookType
 
 
 interface BittrexPublicDAO {
@@ -17,5 +17,5 @@ interface BittrexPublicDAO {
 
     fun getOrderBook(marketType: MarketType, orderBookType: OrderBookType) : Collection<*>
 
-    fun getMarketHistory(marketType: MarketType) : Collection<*>
+    fun getMarketHistory(marketType: MarketType, coinType: String) : Collection<*>
 }
