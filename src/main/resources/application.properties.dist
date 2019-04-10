@@ -1,0 +1,27 @@
+### APPLICATION PROPERTIES TEMPLATE USE IN THIS PROJECT ###
+
+server.port=
+
+
+#postgres
+spring.datasource.url=
+spring.datasource.username=
+spring.datasource.password=
+
+# mongo
+spring.data.mongodb.host=
+spring.data.mongodb.port=
+spring.data.mongodb.database=
+spring.data.mongodb.username=
+spring.data.mongodb.password=
+spring.data.mongodb.authentication-database=
+
+#hibernate
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.hibernate.ddl-auto = update
+
+
+spring.datasource.hikari.connection-timeout=60000
+spring.datasource.hikari.maximum-pool-size=5
+
+logging.level.=error
