@@ -10,8 +10,10 @@ import com.stockexchangebot.model.mongodb.coinsellema.CoinEMADAO
 import com.stockexchangebot.model.postgres.CoinType
 import com.stockexchangebot.model.postgres.CoinTypeDAO
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.concurrent.ForkJoinPool
 import java.util.stream.Collectors
@@ -25,20 +27,21 @@ class CalculateCoinPriceEMAService @Autowired constructor(
         private var coinEMADAO: CoinEMADAO,
         private var bittrexPublicFacade: BittrexPublicFacade) {
 
-    fun mapMarketHistoryToCoinCalculateDate() {
+    @Scheduled(cron = "0 0 * * * *")
+    fun saveData() {
         val coinTypes = getCoinTypes()
 
         saveCoinCalculateDataToMongo(coinTypes)
         saveCoinsAverageEMAToMongo(coinTypes)
     }
 
-    fun saveCoinsAverageEMAToMongo(coinTypes: List<CoinType>) {
+    private fun saveCoinsAverageEMAToMongo(coinTypes: List<CoinType>) {
         val coinsEMA = calculateCoinsEMA(coinTypes)
 
         coinEMADAO.saveAll(coinsEMA)
     }
 
-    fun calculateCoinsEMA(coinTypes: List<CoinType>) : List<CoinEMA> {
+    private fun calculateCoinsEMA(coinTypes: List<CoinType>) : List<CoinEMA> {
         var emaValue = 0.0
         val coinsEma: MutableList<CoinEMA> = ArrayList()
 
@@ -59,7 +62,7 @@ class CalculateCoinPriceEMAService @Autowired constructor(
         return coinsEma
     }
 
-    fun calculateEMA(index: Int, coinCalculateData: CoinCalculateData, alpha: Double): Double {
+    private fun calculateEMA(index: Int, coinCalculateData: CoinCalculateData, alpha: Double): Double {
         var emaValue = 0.0
 
         if(index == 0 && coinCalculateData.price != BigDecimal.ZERO) {
@@ -101,7 +104,8 @@ class CalculateCoinPriceEMAService @Autowired constructor(
                 marketHistory.Id,
                 marketHistory.Price,
                 marketType.toString(),
-                coinType)
+                coinType,
+                LocalDate.now())
     }
 
     private fun getCoinTypes(): List<CoinType> {

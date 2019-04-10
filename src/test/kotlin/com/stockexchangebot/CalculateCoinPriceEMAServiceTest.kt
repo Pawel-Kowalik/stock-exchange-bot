@@ -10,12 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit4.SpringRunner
 import java.math.BigDecimal
+import java.time.LocalDate
 
 @RunWith(SpringRunner::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CalculateCoinPriceEMAServiceTest {
     @Autowired lateinit var calculateCoinPriceEMAService: CalculateCoinPriceEMAService
-    val coinCalculateData = CoinCalculateData(1, BigDecimal(0.5), "BTC", "LTC")
+    val coinCalculateData = CoinCalculateData(1, BigDecimal(0.5), "BTC", "LTC", LocalDate.now())
 
 
     @Test
