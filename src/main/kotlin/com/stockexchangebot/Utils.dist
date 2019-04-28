@@ -1,0 +1,21 @@
+package com.stockexchangebot
+
+// #############################################################################
+// #                                                                           #
+// # Remember to change extension file from '.dist' to ".kt" and add your data #
+// #                                                                           #
+// #############################################################################
+
+class Utils {
+    //Bittrex
+
+    val key = /* Your key */
+
+    val secret = /* Your secret key */
+
+    // Version bittrex API
+    val bittrexApi = "https://api.bittrex.com/api/v1.1"
+
+    // Algorithm use to sign operation on user account
+    val encryptionAlgorithm = "HmacSHA512"
+}
