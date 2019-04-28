@@ -27,3 +27,6 @@
 
 ### Spring Boot ###
 *.properties
+
+### File with account key ###
+Utils.kt
