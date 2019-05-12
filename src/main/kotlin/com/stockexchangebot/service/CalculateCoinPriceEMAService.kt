@@ -5,16 +5,12 @@ import com.stockexchangebot.bittrexapi.dto.MarketHistory
 import com.stockexchangebot.bittrexapi.dto.MarketType
 import com.stockexchangebot.model.mongodb.coincalculatedata.CoinCalculateData
 import com.stockexchangebot.model.mongodb.coincalculatedata.CoinCalculateDataDAO
-import com.stockexchangebot.model.mongodb.coinsellema.CoinEMA
-import com.stockexchangebot.model.mongodb.coinsellema.CoinEMADAO
 import com.stockexchangebot.model.postgres.CoinType
-import com.stockexchangebot.model.postgres.CoinTypeDAO
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
-import java.time.LocalDate
 import java.time.LocalDateTime
+import java.util.*
 import java.util.concurrent.ForkJoinPool
 import java.util.stream.Collectors
 import kotlin.math.pow
@@ -22,47 +18,11 @@ import kotlin.math.pow
 
 @Service
 class CalculateCoinPriceEMAService @Autowired constructor(
-        private var coinTypeDAO: CoinTypeDAO,
         private var coinCalculateDataDAO: CoinCalculateDataDAO,
-        private var coinEMADAO: CoinEMADAO,
         private var bittrexPublicFacade: BittrexPublicFacade) {
 
-    @Scheduled(cron = "0 0 * * * *")
-    fun saveData() {
-        val coinTypes = getCoinTypes()
 
-        saveCoinCalculateDataToMongo(coinTypes)
-        saveCoinsAverageEMAToMongo(coinTypes)
-    }
-
-    private fun saveCoinsAverageEMAToMongo(coinTypes: List<CoinType>) {
-        val coinsEMA = calculateCoinsEMA(coinTypes)
-
-        coinEMADAO.saveAll(coinsEMA)
-    }
-
-    private fun calculateCoinsEMA(coinTypes: List<CoinType>) : List<CoinEMA> {
-        var emaValue = 0.0
-        val coinsEma: MutableList<CoinEMA> = ArrayList()
-
-        coinTypes.stream().forEach{ coinType ->
-            val listSize = coinCalculateDataDAO.getByCoinTypeOrderByIdAsc(coinType.coinName).size
-            if(listSize != 0) {
-                val alpha: Double = (2.toDouble().div((listSize + 1)))
-
-                coinCalculateDataDAO.getByCoinTypeOrderByIdAsc(coinType.coinName)
-                        .forEachIndexed { index, coinCalculateData ->
-                            emaValue += calculateEMA(index, coinCalculateData, alpha)
-                        }
-                val coinEMA = CoinEMA(LocalDateTime.now(), coinType.coinName, emaValue)
-                coinsEma += coinEMA
-                emaValue = 0.0
-            }
-        }
-        return coinsEma
-    }
-
-    private fun calculateEMA(index: Int, coinCalculateData: CoinCalculateData, alpha: Double): Double {
+    fun calculateEMA(index: Int, coinCalculateData: CoinCalculateData, alpha: Double): Double {
         var emaValue = 0.0
 
         if(index == 0 && coinCalculateData.price != BigDecimal.ZERO) {
@@ -74,13 +34,15 @@ class CalculateCoinPriceEMAService @Autowired constructor(
         return emaValue
     }
 
-    private fun saveCoinCalculateDataToMongo(coinTypes: List<CoinType>) {
+    fun saveCoinCalculateDataToMongo(coinTypes: List<CoinType>) {
         val forkJoinPool = ForkJoinPool(24)
 
         forkJoinPool.submit {
             coinTypes.parallelStream().forEach { coinType ->
                 try {
-                    coinCalculateDataDAO.saveAll(mapMarketHistories(coinType.coinName, MarketType.BTC))
+                    val coinCalculateData = mapMarketHistories(coinType.coinName, MarketType.BTC)
+                    if(coinCalculateData.isNotEmpty())
+                        coinCalculateDataDAO.saveAll(coinCalculateData)
                 } catch (e: Exception) {
                     e.stackTrace
                 }
@@ -93,6 +55,8 @@ class CalculateCoinPriceEMAService @Autowired constructor(
                 as List<MarketHistory>
 
         return marketHistory.stream()
+                .sorted(Comparator.comparingInt { it.Id })
+                .limit(26)
                 .map { mapToCoinCalculateData(it, coinType, marketType) }
                 .collect(Collectors.toList())
 
@@ -105,10 +69,6 @@ class CalculateCoinPriceEMAService @Autowired constructor(
                 marketHistory.Price,
                 marketType.toString(),
                 coinType,
-                LocalDate.now())
-    }
-
-    private fun getCoinTypes(): List<CoinType> {
-        return coinTypeDAO.findAll().toList()
+                LocalDateTime.now())
     }
 }

@@ -2,7 +2,7 @@ package com.stockexchangebot.model.mongodb.coincalculatedata
 
 import org.springframework.data.mongodb.core.mapping.Document
 import java.math.BigDecimal
-import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.persistence.Id
 
 @Document
@@ -11,5 +11,5 @@ data class CoinCalculateData(
         var price: BigDecimal,
         var marketType: String,
         var coinType: String,
-        var date: LocalDate
+        var dateTime: LocalDateTime
 )
